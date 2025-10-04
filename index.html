@@ -3,43 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Legacy AI</title>
+    <title>Legacy AI - Memory Keeper</title>
+    <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for a friendly look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Your Custom Stylesheet -->
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-gray-100 text-gray-800 font-sans flex items-center justify-center min-h-screen">
+<body class="bg-gray-50 text-gray-800 flex items-center justify-center min-h-screen p-4">
 
-    <div id="app" class="w-full max-w-4xl mx-auto p-4">
+    <div id="app" class="w-full max-w-4xl mx-auto">
 
+        <!-- ============== HOMEPAGE VIEW ============== -->
         <div id="homepage-view" class="view">
-            <div class="text-center">
-                <h1 class="text-5xl font-bold text-gray-700 mb-2">Legacy AI</h1>
-                <p class="text-lg text-gray-500 mb-8">Preserving family stories for generations to come.</p>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
-                <div id="goto-storyteller" class="bg-white p-8 rounded-lg shadow-lg cursor-pointer hover:shadow-xl transition-shadow">
+            <header class="text-center mb-12">
+                <h1 class="text-5xl md:text-6xl font-bold text-gray-800 mb-3">Legacy AI</h1>
+                <p class="text-lg text-gray-500">Preserving family stories for generations to come.</p>
+            </header>
+            <main class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Storyteller Card -->
+                <div id="goto-storyteller" class="bg-white p-8 rounded-xl shadow-lg cursor-pointer hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
                     <h2 class="text-3xl font-bold text-blue-600 mb-4">I'm a Storyteller</h2>
-                    <p class="text-gray-600">Share your life experiences and memories. Your stories are a gift. Let's record them.</p>
+                    <p class="text-gray-600">Share your life experiences and wisdom. Your stories are a precious gift. Let's record them.</p>
                 </div>
-                <div id="goto-family" class="bg-white p-8 rounded-lg shadow-lg cursor-pointer hover:shadow-xl transition-shadow">
+                <!-- Family View Card -->
+                <div id="goto-family" class="bg-white p-8 rounded-xl shadow-lg cursor-pointer hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
                     <h2 class="text-3xl font-bold text-green-600 mb-4">I'm a Family Member</h2>
                     <p class="text-gray-600">Explore your family's history. Read, listen, and connect with the stories that made you.</p>
                 </div>
-            </div>
+            </main>
         </div>
 
-        <div id="storyteller-view" class="view hidden opacity-0">
-            <h1 class="text-4xl text-center font-bold">Storyteller Mode</h1>
-            <button id="back-to-home-1" class="block mx-auto mt-4 px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">Back to Home</button>
-            </div>
+        <!-- ============== STORYTELLER VIEW ============== -->
+        <div id="storyteller-view" class="view hidden">
+            <header class="text-center mb-8">
+                <p id="story-prompt" class="text-2xl md:text-3xl text-gray-700">What is a piece of advice you received that you've never forgotten?</p>
+            </header>
+            <main class="bg-white p-6 rounded-xl shadow-lg">
+                <!-- Voice Recording Controls -->
+                <div class="flex flex-col items-center justify-center space-y-4 mb-6">
+                    <button id="record-btn" class="bg-blue-600 text-white rounded-full w-24 h-24 flex items-center justify-center hover:bg-blue-700 transition-all duration-300 shadow-lg focus:outline-none">
+                        <svg id="mic-icon" xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" viewBox="0 0 20 20" fill="currentColor"><path d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm5 6a1 1 0 011 1v1.93a5.002 5.002 0 01-4 4.9v1.17a1 1 0 11-2 0v-1.17a5.002 5.002 0 01-4-4.9V11a1 1 0 112 0v1.93a3 3 0 006 0V11a1 1 0 011-1z" /></svg>
+                    </button>
+                    <p id="recording-status" class="text-gray-500 h-6">Click the button and start speaking</p>
+                </div>
+                <!-- Transcript & Text Area -->
+                <div class="space-y-4">
+                    <div class="bg-gray-100 p-4 rounded-lg shadow-inner min-h-[100px]">
+                        <p id="transcript-output" class="text-gray-700 whitespace-pre-wrap italic">Your recorded words will appear here...</p>
+                    </div>
+                    <textarea id="text-input" class="w-full p-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500" rows="5" placeholder="...or you can type or edit your story here."></textarea>
+                    <div class="flex justify-end">
+                        <button id="submit-story-btn" class="px-8 py-3 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 transition-colors disabled:bg-gray-400">
+                            <span id="submit-btn-text">Create My Story</span>
+                            <span id="submit-btn-spinner" class="hidden">
+                                <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </main>
+            <footer class="text-center mt-6">
+                <button class="back-to-home px-4 py-2 text-gray-500 hover:text-gray-800">&larr; Back to Home</button>
+            </footer>
+        </div>
 
-        <div id="family-view" class="view hidden opacity-0">
-            <h1 class="text-4xl text-center font-bold">Family Library</h1>
-            <button id="back-to-home-2" class="block mx-auto mt-4 px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">Back to Home</button>
-            </div>
+        <!-- ============== FAMILY VIEW ============== -->
+        <div id="family-view" class="view hidden">
+            <header class="text-center mb-8">
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-800">The Family Library</h1>
+            </header>
+            <main id="story-library" class="space-y-6">
+                <!-- Stories will be dynamically added here -->
+            </main>
+             <footer class="text-center mt-6">
+                <button class="back-to-home px-4 py-2 text-gray-500 hover:text-gray-800">&larr; Back to Home</button>
+            </footer>
+        </div>
 
+        <!-- ============== SINGLE STORY VIEW ============== -->
+        <div id="single-story-view" class="view hidden">
+            <main id="story-content" class="bg-white p-8 md:p-12 rounded-xl shadow-lg">
+                <!-- Single story content will be dynamically added here -->
+            </main>
+            <footer class="text-center mt-6">
+                 <button id="back-to-library" class="px-4 py-2 text-gray-500 hover:text-gray-800">&larr; Back to Library</button>
+            </footer>
+        </div>
+
+        <!-- Custom Modal for Alerts -->
+        <div id="custom-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+            <div class="bg-white rounded-lg shadow-2xl p-6 text-center max-w-sm">
+                <p id="modal-text" class="text-lg mb-4"></p>
+                <button id="modal-close-btn" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">OK</button>
+            </div>
+        </div>
     </div>
 
+    <!-- Your Custom Script -->
     <script src="script.js" defer></script>
 </body>
 </html>
+
